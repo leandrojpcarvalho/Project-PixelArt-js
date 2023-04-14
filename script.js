@@ -24,7 +24,7 @@ newTitle.innerText = 'Paleta de Cores';
 pathOfBody.lastChild.firstChild.appendChild(newTitle);
 
 // criação de cada paleta de cor
-const arrayColor = ['blue', 'red', 'green', 'yellow'];
+const arrayColor = ['black', 'red', 'green', 'yellow'];
 for (let i = 0; i < 4; i += 1) {
   newDiv = document.createElement('div');
   newDiv.className = 'color';
