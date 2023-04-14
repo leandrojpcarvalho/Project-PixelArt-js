@@ -51,13 +51,13 @@ function randomColors() {
 }
 // listener butão e localstorage
 const pathOfButton = document.getElementById('button-random-color');
-const pathOfColor = document.getElementsByClassName('color');
+const pathOfColors = document.getElementsByClassName('color');
 let arrayRandomColors = [];
 
 // função para setar cor
 function setColor(arrayOfColors) {
   for (let i = 0; i < 3; i += 1) {
-    pathOfColor[i + 1].style.backgroundColor = arrayOfColors[i];
+    pathOfColors[i + 1].style.backgroundColor = arrayOfColors[i];
   }
 }
 
@@ -104,4 +104,25 @@ window.onload = () => {
   restoreLocalStorage();
 };
 
-pathOfColor[0].classList.add('selected');
+pathOfColors[0].classList.add('selected');
+
+// criar função para selecionar cores
+// remove a classe selected
+const removeSelected = () => {
+  for (const color of pathOfColors) {
+    color.classList.remove('selected');
+  }
+};
+// atribui a classe selected
+const selectColor = (event) => {
+  const selectedColor = event.target;
+
+  removeSelected();
+
+  selectedColor.classList.add('selected');
+};
+
+// adiciona listeners as cores
+for (const color of pathOfColors) {
+  color.addEventListener('click', selectColor);
+}
