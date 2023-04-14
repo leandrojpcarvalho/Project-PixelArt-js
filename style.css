@@ -1,3 +1,7 @@
+:root{
+    --pixel: 40px
+}
+
 .color{
     display: inline-block;
     border: black solid 1px;
@@ -10,13 +14,15 @@
 }
 
 #pixel-board{
-    width: 40px;
-    
+    display: grid;
+    grid-template-columns: var(--pixel) var(--pixel) var(--pixel) var(--pixel) var(--pixel);
+    grid-template-rows: var(--pixel) var(--pixel) var(--pixel) var(--pixel) var(--pixel);
 }
+
 .pixel{
-    width: 5px;
-    height: 5px;
-    border: black solid .1px;
-    display: inline-block;
+    width: var(--pixel);
+    height: var(--pixel);
+    border: black solid 1px;
     background-color: white;
 }
+

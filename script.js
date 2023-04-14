@@ -103,3 +103,5 @@ for (let i = 0; i < 25; i += 1) {
 window.onload = () => {
   restoreLocalStorage();
 };
+
+pathOfColor[0].classList.add('selected');
