@@ -1,4 +1,10 @@
 .color{
     display: inline-block;
     border: black solid 1px;
+    width: 100px;
+    height: 100px;
+}
+
+#button-random-color{
+    display: flex;
 }
