@@ -9,7 +9,7 @@ newTitle.innerText = 'Paleta de Cores';
 pathOfBody.appendChild(newTitle);
 
 // criação de uma seção para comportar a paleta de cores
-const newSection = document.createElement('section');
+let newSection = document.createElement('section');
 
 pathOfBody.appendChild(newSection);
 
@@ -76,3 +76,20 @@ window.onload = () => {
     // setColor();
   }
 };
+
+// criação do quadro pix
+newSection = document.createElement('section');
+
+pathOfBody.appendChild(newSection);
+
+newDiv = document.createElement('div');
+newDiv.id = 'pixel-board';
+
+pathOfBody.lastChild.appendChild(newDiv);
+
+// criação dos pixels
+for (let i = 0; i < 25; i += 1) {
+  newDiv = document.createElement('div');
+  newDiv.className = 'pixel';
+  pathOfBody.lastChild.lastChild.appendChild(newDiv);
+}
