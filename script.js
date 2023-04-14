@@ -54,11 +54,14 @@ const pathOfButton = document.getElementById('button-random-color');
 const pathOfColor = document.getElementsByClassName('color');
 let arrayRandomColors = [];
 
-function setColor() {
+// função para setar cor
+function setColor(arrayOfColors) {
   for (let i = 0; i < 3; i += 1) {
-    pathOfColor[i + 1].style.backgroundColor = arrayRandomColors[i];
+    pathOfColor[i + 1].style.backgroundColor = arrayOfColors[i];
   }
 }
+
+// lister do botão
 pathOfButton.addEventListener('click', () => {
   // limpar o arrayRandomColors
   arrayRandomColors = [];
@@ -66,14 +69,16 @@ pathOfButton.addEventListener('click', () => {
     arrayRandomColors.push(randomColors());
   }
   localStorage.setItem('colorPalette', JSON.stringify(arrayRandomColors));
-  setColor();
+  setColor(arrayRandomColors);
 });
 
-// restaurar cores geradas
-window.onload = () => {
-  if (arrayRandomColors.length === 0) {
+// localstorage
+const restoreLocalStorage = () => {
+  if (localStorage.getItem('colorPalette')) {
     arrayRandomColors = JSON.parse(localStorage.getItem('colorPalette'));
-    // setColor();
+    setColor(arrayRandomColors);
+  } else {
+    setColor(arrayColor.shift());
   }
 };
 
@@ -93,3 +98,8 @@ for (let i = 0; i < 25; i += 1) {
   newDiv.className = 'pixel';
   pathOfBody.lastChild.lastChild.appendChild(newDiv);
 }
+
+// restaurar cores geradas
+window.onload = () => {
+  restoreLocalStorage();
+};
