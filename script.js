@@ -52,27 +52,27 @@ function randomColors() {
 // listener butão e localstorage
 const pathOfButton = document.getElementById('button-random-color');
 const pathOfColor = document.getElementsByClassName('color');
-let arrayRandomColors=[];
+let arrayRandomColors = [];
 
+function setColor() {
+  for (let i = 0; i < 3; i += 1) {
+    pathOfColor[i + 1].style.backgroundColor = arrayRandomColors[i];
+  }
+}
 pathOfButton.addEventListener('click', () => {
-// limpar o arrayRandomColors
-  arrayRandomColors=[];
-  for (let i=0;i<3;i+=1){
+  // limpar o arrayRandomColors
+  arrayRandomColors = [];
+  for (let i = 0; i < 3; i += 1) {
     arrayRandomColors.push(randomColors());
   }
   localStorage.setItem('colorPalette', JSON.stringify(arrayRandomColors));
   setColor();
 });
 
-function setColor(){
-    for (let i = 0; i < 3; i += 1) {
-        pathOfColor[i + 1].style.backgroundColor = arrayRandomColors[i];
-    }
-}
 // restaurar cores geradas
-window.onload=() => {
-    if(arrayRandomColors.length===0){
-        arrayRandomColors=JSON.parse(localStorage.getItem('colorPalette'));
-        setColor();
-    }
-}
+window.onload = () => {
+  if (arrayRandomColors.length === 0) {
+    arrayRandomColors = JSON.parse(localStorage.getItem('colorPalette'));
+    // setColor();
+  }
+};
