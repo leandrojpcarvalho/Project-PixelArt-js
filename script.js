@@ -33,12 +33,13 @@ for (let i = 0; i < 4; i += 1) {
   pathOfBody.lastChild.lastChild.appendChild(newDiv);
 }
 
+// criação do botão
 const newButton = document.createElement('button');
 newButton.id = 'button-random-color';
 newButton.innerHTML = 'Cores aleatórias';
 
 pathOfBody.lastChild.lastChild.appendChild(newButton);
-
+// função para gerar cor
 function randomColors() {
   const letters = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
   let newColor = '#';
@@ -48,12 +49,30 @@ function randomColors() {
   }
   return newColor;
 }
-
+// listener butão e localstorage
 const pathOfButton = document.getElementById('button-random-color');
 const pathOfColor = document.getElementsByClassName('color');
+let arrayRandomColors=[];
 
 pathOfButton.addEventListener('click', () => {
-  for (let i = 0; i < 3; i += 1) {
-    pathOfColor[i + 1].style.backgroundColor = randomColors();
+// limpar o arrayRandomColors
+  arrayRandomColors=[];
+  for (let i=0;i<3;i+=1){
+    arrayRandomColors.push(randomColors());
   }
+  localStorage.setItem('colorPalette', JSON.stringify(arrayRandomColors));
+  setColor();
 });
+
+function setColor(){
+    for (let i = 0; i < 3; i += 1) {
+        pathOfColor[i + 1].style.backgroundColor = arrayRandomColors[i];
+    }
+}
+// restaurar cores geradas
+window.onload=() => {
+    if(arrayRandomColors.length===0){
+        arrayRandomColors=JSON.parse(localStorage.getItem('colorPalette'));
+        setColor();
+    }
+}
