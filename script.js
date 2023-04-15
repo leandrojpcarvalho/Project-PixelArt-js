@@ -97,6 +97,7 @@ function square(order, pixel) {
     squareCss += pixel + 'px ';
   }
   document.body.style.setProperty('--square', squareCss);
+  document.body.style.setProperty('--pixel', `${pixel}px`);
 }
 
 // criação dos pixels
