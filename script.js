@@ -107,11 +107,13 @@ window.onload = () => {
 pathOfColors[0].classList.add('selected');
 
 // criar função para selecionar cores
+//  mapeia a o htmlcollection
+const mapOfColors = Object.values(pathOfColors);
 // remove a classe selected
 const removeSelected = () => {
-  for (const color of pathOfColors) {
+  mapOfColors.forEach((color) => {
     color.classList.remove('selected');
-  }
+  });
 };
 // atribui a classe selected
 const selectColor = (event) => {
@@ -122,7 +124,6 @@ const selectColor = (event) => {
   selectedColor.classList.add('selected');
 };
 
-// adiciona listeners as cores
-for (const color of pathOfColors) {
+mapOfColors.forEach((color) => {
   color.addEventListener('click', selectColor);
-}
+});
