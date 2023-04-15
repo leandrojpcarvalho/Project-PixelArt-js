@@ -96,13 +96,9 @@ pathOfBody.lastChild.appendChild(newDiv);
 for (let i = 0; i < 25; i += 1) {
   newDiv = document.createElement('div');
   newDiv.className = 'pixel';
+  newDiv.id = `px-${i}`;
   pathOfBody.lastChild.lastChild.appendChild(newDiv);
 }
-
-// restaurar cores geradas
-window.onload = () => {
-  restoreLocalStorage();
-};
 
 pathOfColors[0].classList.add('selected');
 
@@ -128,15 +124,27 @@ mapOfColors.forEach((color) => {
   color.addEventListener('click', selectColor);
 });
 
+// criar objeto para armazernar cores e posições
+const saveDraw = {};
+
 // mapeamento dos pixels
 const mapOfPixels = Object.values(document.getElementsByClassName('pixel'));
+
+// função scanner para salvar no localStorage
+function scanPixels() {
+  mapOfPixels.forEach((pixel) => {
+    saveDraw[pixel.id] = pixel.style.backgroundColor;
+  });
+}
 
 // função para setar a cor dos pixels
 const setPixelColor = (event) => {
   const selectedColor = document.getElementsByClassName('color selected')[0];
-  const pixelColor = event.target;
+  const pixel = event.target;
 
-  pixelColor.style.backgroundColor = selectedColor.style.backgroundColor;
+  pixel.style.backgroundColor = selectedColor.style.backgroundColor;
+  scanPixels();
+  localStorage.setItem('pixelBoard', JSON.stringify(saveDraw));
 };
 
 // listener dos pixels
@@ -160,3 +168,27 @@ function clearPixels() {
 
 // listern do botão limpar
 document.getElementById('clear-board').addEventListener('click', clearPixels);
+
+//  Função para restaurar o pixel no localstorage
+
+function restorePixelBoard() {
+  if (localStorage.getItem('pixelBoard')) {
+    const objPixelBoard = JSON.parse(localStorage.getItem('pixelBoard'));
+    const arrayPixelBoard = Object.entries(objPixelBoard);
+
+    // restaurador
+    arrayPixelBoard.forEach((arrayIdColor) => {
+      const [pixelId, color] = arrayIdColor;
+      const pixelLoc = document.getElementById(pixelId);
+      pixelLoc.style.backgroundColor = color;
+    });
+  } else {
+    clearPixels();
+  }
+}
+
+// restaurar cores geradas
+window.onload = () => {
+  restoreLocalStorage();
+  restorePixelBoard();
+};
