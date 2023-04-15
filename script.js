@@ -34,7 +34,7 @@ for (let i = 0; i < 4; i += 1) {
 }
 
 // criação do botão
-const newButton = document.createElement('button');
+let newButton = document.createElement('button');
 newButton.id = 'button-random-color';
 newButton.innerHTML = 'Cores aleatórias';
 
@@ -143,3 +143,20 @@ const setPixelColor = (event) => {
 mapOfPixels.forEach((pixel) => {
   pixel.addEventListener('click', setPixelColor);
 });
+
+// criar botão para limpar
+
+newButton = document.createElement('button');
+newButton.innerText = 'Limpar';
+newButton.id = 'clear-board';
+
+pathOfBody.lastChild.previousSibling.appendChild(newButton);
+
+function clearPixels() {
+  mapOfPixels.forEach((pixel) => {
+    pixel.style.backgroundColor = 'white';
+  });
+}
+
+// listern do botão limpar
+document.getElementById('clear-board').addEventListener('click', clearPixels);

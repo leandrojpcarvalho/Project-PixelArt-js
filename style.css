@@ -25,3 +25,7 @@
     border: black solid 1px;
     background-color: white;
 }
+
+#clear-board{
+    display: flex;
+}
