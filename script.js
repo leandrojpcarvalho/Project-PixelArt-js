@@ -127,3 +127,19 @@ const selectColor = (event) => {
 mapOfColors.forEach((color) => {
   color.addEventListener('click', selectColor);
 });
+
+// mapeamento dos pixels
+const mapOfPixels = Object.values(document.getElementsByClassName('pixel'));
+
+// função para setar a cor dos pixels
+const setPixelColor = (event) => {
+  const selectedColor = document.getElementsByClassName('color selected')[0];
+  const pixelColor = event.target;
+
+  pixelColor.style.backgroundColor = selectedColor.style.backgroundColor;
+};
+
+// listener dos pixels
+mapOfPixels.forEach((pixel) => {
+  pixel.addEventListener('click', setPixelColor);
+});
