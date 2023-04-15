@@ -109,7 +109,7 @@ function createPixels(order, pixel) {
   }
   square(order, pixel);
 }
-createPixels(5, 40);
+
 pathOfColors[0].classList.add('selected');
 
 // criar função para selecionar cores
@@ -190,11 +190,17 @@ document.getElementById('clear-board').addEventListener('click', clearPixels);
 //  Função para restaurar o pixel no localstorage
 
 function restorePixelBoard() {
+  if (localStorage.getItem('boardSize')) {
+    const arrayBoard = JSON.parse(localStorage.getItem('boardSize'));
+    // restaurador comprimento
+    removePixels();
+    createPixels(arrayBoard[0], arrayBoard[1]);
+    addListnerPixels();
+  }
   if (localStorage.getItem('pixelBoard')) {
     const objPixelBoard = JSON.parse(localStorage.getItem('pixelBoard'));
     const arrayPixelBoard = Object.entries(objPixelBoard);
-
-    // restaurador
+    // restaurador PixelBoard pintado
     arrayPixelBoard.forEach((arrayIdColor) => {
       const [pixelId, color] = arrayIdColor;
       const pixelLoc = document.getElementById(pixelId);
@@ -207,6 +213,7 @@ function restorePixelBoard() {
 
 // restaurar cores geradas
 window.onload = () => {
+  createPixels(5, 40);
   addListnerPixels();
   restoreLocalStorage();
   restorePixelBoard();
@@ -246,6 +253,11 @@ function maxPixel(pixel) {
 // funções do botão VQV
 function setPixels() {
   if (pathOfInputVQV.value !== '' && pathOfInputVQV.value > 0) {
+    localStorage.setItem(
+      'boardSize',
+      JSON.stringify([pathOfInputVQV.value, pathOfInputVQV.value])
+    );
+    scanPixels();
     removePixels();
     createPixels(
       maxPixel(pathOfInputVQV.value),
@@ -266,6 +278,9 @@ function setPixels() {
 pathBtVQV.addEventListener('click', setPixels);
 
 function removePixels() {
+  reloadMapOfPixels().forEach((pixel) => {
+    pixel.removeEventListener('click', setPixelColor);
+  });
   const parent = document.getElementById('pixel-board');
   parent.innerText = '';
 }
