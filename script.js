@@ -1,5 +1,5 @@
 const pathOfBody = document.getElementsByTagName('body')[0];
-
+let mapOfPixels;
 //  criação do titulo
 
 let newTitle = document.createElement('h1');
@@ -33,7 +33,7 @@ for (let i = 0; i < 4; i += 1) {
   pathOfBody.lastChild.lastChild.appendChild(newDiv);
 }
 
-// criação do botão
+// criação do botão gerar cores aleatórias
 let newButton = document.createElement('button');
 newButton.id = 'button-random-color';
 newButton.innerHTML = 'Cores aleatórias';
@@ -49,7 +49,7 @@ function randomColors() {
   }
   return newColor;
 }
-// listener butão e localstorage
+// listener butão random color e localstorage
 const pathOfButton = document.getElementById('button-random-color');
 const pathOfColors = document.getElementsByClassName('color');
 let arrayRandomColors = [];
@@ -61,7 +61,7 @@ function setColor(arrayOfColors) {
   }
 }
 
-// lister do botão
+// listener do botão random color
 pathOfButton.addEventListener('click', () => {
   // limpar o arrayRandomColors
   arrayRandomColors = [];
@@ -91,15 +91,26 @@ newDiv = document.createElement('div');
 newDiv.id = 'pixel-board';
 
 pathOfBody.lastChild.appendChild(newDiv);
-
-// criação dos pixels
-for (let i = 0; i < 25; i += 1) {
-  newDiv = document.createElement('div');
-  newDiv.className = 'pixel';
-  newDiv.id = `px-${i}`;
-  pathOfBody.lastChild.lastChild.appendChild(newDiv);
+// função para determinar o grid
+function square(order,pixel){
+    let squareCss='';
+    for(let i=0;i<order;i+=1){
+        squareCss+=pixel+'px ';
+    }
+    document.body.style.setProperty('--square', squareCss);
 }
 
+// criação dos pixels
+function createPixels (order,pixel){
+    for (let i = 0; i < order**2; i += 1) {
+      newDiv = document.createElement('div');
+      newDiv.className = 'pixel';
+      newDiv.id = `px-${i}`;
+      document.getElementById('pixel-board').appendChild(newDiv);
+    }
+    square(order,pixel);
+  }
+  createPixels(5,40);
 pathOfColors[0].classList.add('selected');
 
 // criar função para selecionar cores
@@ -128,8 +139,9 @@ mapOfColors.forEach((color) => {
 const saveDraw = {};
 
 // mapeamento dos pixels
-const mapOfPixels = Object.values(document.getElementsByClassName('pixel'));
-
+function reloadMapOfPixels () {
+    return mapOfPixels = Object.values(document.getElementsByClassName('pixel'));
+}
 // função scanner para salvar no localStorage
 function scanPixels() {
   mapOfPixels.forEach((pixel) => {
@@ -148,19 +160,28 @@ const setPixelColor = (event) => {
 };
 
 // listener dos pixels
-mapOfPixels.forEach((pixel) => {
-  pixel.addEventListener('click', setPixelColor);
-});
+function addListnerPixels(){
+    mapOfPixels = reloadMapOfPixels();
+  mapOfPixels.forEach((pixel) => {
+    pixel.addEventListener('click', setPixelColor);
+  });
+}
+// nova div para botão limpar e input da largura do pixel
+newDiv = document.createElement('div');
+newDiv.className = 'button-input';
+pathOfBody.lastChild.previousSibling.appendChild(newDiv);
 
+// caminho para div .button-input
+const pathOfButtonInputDiv = document.getElementsByClassName('button-input')[0];
 // criar botão para limpar
-
 newButton = document.createElement('button');
 newButton.innerText = 'Limpar';
 newButton.id = 'clear-board';
 
-pathOfBody.lastChild.previousSibling.appendChild(newButton);
+pathOfButtonInputDiv.appendChild(newButton);
 
 function clearPixels() {
+    mapOfPixels = reloadMapOfPixels();
   mapOfPixels.forEach((pixel) => {
     pixel.style.backgroundColor = 'white';
   });
@@ -189,6 +210,51 @@ function restorePixelBoard() {
 
 // restaurar cores geradas
 window.onload = () => {
+  reloadMapOfPixels();
+  addListnerPixels();
   restoreLocalStorage();
   restorePixelBoard();
+  addListnerPixels();
 };
+
+// +++++====+++++====+++++====Bonus====+++++====+++++====+++++
+// criação do botão
+
+const newInput = document.createElement('input');
+newInput.id = 'board-size';
+newInput.min = '1';
+newInput.type = 'number';
+
+pathOfButtonInputDiv.appendChild(newInput);
+
+newButton=document.createElement('input');
+newButton.id='generate-board';
+newButton.type='submit'
+newButton.innerText='VQV';
+
+pathOfButtonInputDiv.appendChild(newButton);
+
+// ==============================================
+// caminhos do input e botão VQV
+const pathBtVQV=pathOfButtonInputDiv.lastChild;
+const pathOfInputVQV=pathOfButtonInputDiv.firstChild.nextSibling;
+// funções do botão VQV
+function setPixels() {
+    if(pathOfInputVQV.value!=='' && pathOfInputVQV.value>0){
+        removePixels();
+        createPixels(pathOfInputVQV.value, pathOfInputVQV.value);
+        addListnerPixels();
+        document.body.style.setProperty('--pixel',`${pathOfInputVQV.value}px`);
+    } else {
+        alert('Board inválido!');
+        pathOfInputVQV.value='';
+    }
+}
+
+// listener do botao VQV
+pathBtVQV.addEventListener('click',setPixels);
+
+function removePixels () {
+    const parent=document.getElementById('pixel-board');
+    parent.innerText='';
+}

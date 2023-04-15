@@ -1,12 +1,13 @@
 :root{
-    --pixel: 40px
+    --pixel: 40px;
+    --square: var(--pixel) var(--pixel) var(--pixel) var(--pixel) var(--pixel) 
 }
 
 .color{
     display: inline-block;
     border: black solid 1px;
     width: 100px;
-    height: 100px;
+    height: 100px; 
 }
 
 #button-random-color{
@@ -15,8 +16,8 @@
 
 #pixel-board{
     display: grid;
-    grid-template-columns: var(--pixel) var(--pixel) var(--pixel) var(--pixel) var(--pixel);
-    grid-template-rows: var(--pixel) var(--pixel) var(--pixel) var(--pixel) var(--pixel);
+    grid-template-columns: var(--square);
+    grid-template-rows: var(--square);
 }
 
 .pixel{
@@ -26,6 +27,6 @@
     background-color: white;
 }
 
-#clear-board{
-    display: flex;
+.button-input{
+    display: inline-block;
 }
