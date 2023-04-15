@@ -1,5 +1,4 @@
 const pathOfBody = document.getElementsByTagName('body')[0];
-let mapOfPixels;
 //  criação do titulo
 
 let newTitle = document.createElement('h1');
@@ -92,25 +91,25 @@ newDiv.id = 'pixel-board';
 
 pathOfBody.lastChild.appendChild(newDiv);
 // função para determinar o grid
-function square(order,pixel){
-    let squareCss='';
-    for(let i=0;i<order;i+=1){
-        squareCss+=pixel+'px ';
-    }
-    document.body.style.setProperty('--square', squareCss);
+function square(order, pixel) {
+  let squareCss = '';
+  for (let i = 0; i < order; i += 1) {
+    squareCss += pixel + 'px ';
+  }
+  document.body.style.setProperty('--square', squareCss);
 }
 
 // criação dos pixels
-function createPixels (order,pixel){
-    for (let i = 0; i < order**2; i += 1) {
-      newDiv = document.createElement('div');
-      newDiv.className = 'pixel';
-      newDiv.id = `px-${i}`;
-      document.getElementById('pixel-board').appendChild(newDiv);
-    }
-    square(order,pixel);
+function createPixels(order, pixel) {
+  for (let i = 0; i < order ** 2; i += 1) {
+    newDiv = document.createElement('div');
+    newDiv.className = 'pixel';
+    newDiv.id = `px-${i}`;
+    document.getElementById('pixel-board').appendChild(newDiv);
   }
-  createPixels(5,40);
+  square(order, pixel);
+}
+createPixels(5, 40);
 pathOfColors[0].classList.add('selected');
 
 // criar função para selecionar cores
@@ -139,12 +138,12 @@ mapOfColors.forEach((color) => {
 const saveDraw = {};
 
 // mapeamento dos pixels
-function reloadMapOfPixels () {
-    return mapOfPixels = Object.values(document.getElementsByClassName('pixel'));
+function reloadMapOfPixels() {
+  return Object.values(document.getElementsByClassName('pixel'));
 }
 // função scanner para salvar no localStorage
 function scanPixels() {
-  mapOfPixels.forEach((pixel) => {
+  reloadMapOfPixels().forEach((pixel) => {
     saveDraw[pixel.id] = pixel.style.backgroundColor;
   });
 }
@@ -160,9 +159,8 @@ const setPixelColor = (event) => {
 };
 
 // listener dos pixels
-function addListnerPixels(){
-    mapOfPixels = reloadMapOfPixels();
-  mapOfPixels.forEach((pixel) => {
+function addListnerPixels() {
+  reloadMapOfPixels().forEach((pixel) => {
     pixel.addEventListener('click', setPixelColor);
   });
 }
@@ -181,8 +179,7 @@ newButton.id = 'clear-board';
 pathOfButtonInputDiv.appendChild(newButton);
 
 function clearPixels() {
-    mapOfPixels = reloadMapOfPixels();
-  mapOfPixels.forEach((pixel) => {
+  reloadMapOfPixels().forEach((pixel) => {
     pixel.style.backgroundColor = 'white';
   });
 }
@@ -210,7 +207,6 @@ function restorePixelBoard() {
 
 // restaurar cores geradas
 window.onload = () => {
-  reloadMapOfPixels();
   addListnerPixels();
   restoreLocalStorage();
   restorePixelBoard();
@@ -227,34 +223,49 @@ newInput.type = 'number';
 
 pathOfButtonInputDiv.appendChild(newInput);
 
-newButton=document.createElement('input');
-newButton.id='generate-board';
-newButton.type='submit'
-newButton.innerText='VQV';
+newButton = document.createElement('input');
+newButton.id = 'generate-board';
+newButton.type = 'submit';
+newButton.innerText = 'VQV';
 
 pathOfButtonInputDiv.appendChild(newButton);
 
 // ==============================================
 // caminhos do input e botão VQV
-const pathBtVQV=pathOfButtonInputDiv.lastChild;
-const pathOfInputVQV=pathOfButtonInputDiv.firstChild.nextSibling;
+const pathBtVQV = pathOfButtonInputDiv.lastChild;
+const pathOfInputVQV = pathOfButtonInputDiv.firstChild.nextSibling;
+// função para limitar pixels
+function maxPixel(pixel) {
+  if (pixel < 5) {
+    return 5;
+  } else if (pixel > 50) {
+    return 50;
+  }
+  return pixel;
+}
 // funções do botão VQV
 function setPixels() {
-    if(pathOfInputVQV.value!=='' && pathOfInputVQV.value>0){
-        removePixels();
-        createPixels(pathOfInputVQV.value, pathOfInputVQV.value);
-        addListnerPixels();
-        document.body.style.setProperty('--pixel',`${pathOfInputVQV.value}px`);
-    } else {
-        alert('Board inválido!');
-        pathOfInputVQV.value='';
-    }
+  if (pathOfInputVQV.value !== '' && pathOfInputVQV.value > 0) {
+    removePixels();
+    createPixels(
+      maxPixel(pathOfInputVQV.value),
+      maxPixel(pathOfInputVQV.value)
+    );
+    addListnerPixels();
+    document.body.style.setProperty(
+      '--pixel',
+      `${maxPixel(pathOfInputVQV.value)}px`
+    );
+  } else {
+    alert('Board inválido!');
+    pathOfInputVQV.value = '';
+  }
 }
 
 // listener do botao VQV
-pathBtVQV.addEventListener('click',setPixels);
+pathBtVQV.addEventListener('click', setPixels);
 
-function removePixels () {
-    const parent=document.getElementById('pixel-board');
-    parent.innerText='';
+function removePixels() {
+  const parent = document.getElementById('pixel-board');
+  parent.innerText = '';
 }
