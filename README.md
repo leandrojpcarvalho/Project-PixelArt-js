@@ -1,6 +1,6 @@
 # Pixels art
 
-## descrição do Projeto
+## Descrição do Projeto
 
 Este código JavaScript é responsável por criar uma página web que oferece uma série de funcionalidades relacionadas a cores e pixels. Ele começa criando uma estrutura básica, incluindo um título, uma paleta de cores e uma grade de pixels.
 
