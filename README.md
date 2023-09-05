@@ -1,5 +1,6 @@
-[h1](Pixels art)
+# Pixels art
 
+## descrição do Projeto
 
 Este código JavaScript é responsável por criar uma página web que oferece uma série de funcionalidades relacionadas a cores e pixels. Ele começa criando uma estrutura básica, incluindo um título, uma paleta de cores e uma grade de pixels.
 
@@ -14,9 +15,9 @@ Uma característica adicional é a capacidade de personalizar o tamanho da grade
 O código também é projetado para armazenar a seleção de cores e o conteúdo da grade de pixels no armazenamento local do navegador, para que os usuários possam retomar seu trabalho em sessões subsequentes. Em resumo, este código cria uma experiência interativa de pintura digital com uma paleta de cores, grade de pixels e opções de personalização.
 
 
-Habilidades desenvolvidas:
+## Habilidades desenvolvidas:
 - criar botões e areas clicaveis,
 - salvar no localStorage,
 
-Comentário:
+## Comentário:
 Foi meu primeiro contato com js, resolvi fazer a pagina com criação 100% em js.
